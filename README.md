@@ -1,12 +1,12 @@
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
+# CouchDB AMI by couch.io
+
+## "We mind the racks, so you can relax."
 
 Welcome to the couch.io CouchDB Amazon Machine Images. For more information please visit: 
 
     http://hosting.couch.io/ami/
 
-:: Launching an Image
+## Launching an Image
 
 The hardest part of this is installing the EC2 command-line tools, and setting up the proper environment variables. The instructions for installing the EC2 tools are here:
 
@@ -44,11 +44,11 @@ https://aws-portal.amazon.com/gp/aws/user/subscription/index.html?offeringCode=2
 
 To switch to a public AMI, set PAID in the couchdb-ec2-env.sh to "public". Thanks for your support!
 
-:: Backups
+## Backups
 
 These AMIs are configured to store CouchDB data on the internal, ephemeral storage. This means when your instance terminates, all data will be lost. There are no backups. If you need backups, be sure to set them up. (We plan to add everything from auto-backups to clustering, in future iterations.)
 
-:: Security
+## Security
 
 CouchDB by default is open for all (yay, admin party!), but that's probably not what you want, make sure to secure your CouchDB instance if you plan to use it in production. More information can be found in the Security Chapter of the CouchBook.
 
@@ -65,25 +65,27 @@ Don't forget to close port 5984 when you are done:
     ec2-revoke -p 5984 default
 
 
-:: Creating a Custom Image ::
+## Creating a Custom Image
 
-To create a new instance, edit the S3_BUCKET in couchdb-ec2-env.sh, as well as select the CouchDB version you want to install. Then run:
+To create a new AMI image, edit the S3_BUCKET in couchdb-ec2-env.sh, as well as select the CouchDB version you want to install. Then run:
 
     ./bin/create-couchdb-instance
 
+This should just work.
 
-:: Thanks
+## Thanks
 
 These scripts are based heavily on work by Eric Hammond, available in the Hadoop project.
 
-History:
+### History:
 
-  2008-05-16 Eric Hammond <ehammond@thinksome.com>
+* 2008-05-16 Eric Hammond <ehammond@thinksome.com>
   - Initial version including code from Kim Scheibel, Jorge Oliveira
-  2008-08-06 Tom White
+* 2008-08-06 Tom White
   - Updated to use mktemp on fedora
-  2009-09-29 Chris Anderson <jchris@couch.io>
+* 2009-09-29 Chris Anderson <jchris@couch.io>
   - Updated for Ubuntu and CouchDB
 
-License: Apache 2.0
+
+## License: Apache 2.0
   http://www.apache.org/licenses/LICENSE-2.0
