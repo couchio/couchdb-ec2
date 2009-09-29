@@ -2,7 +2,7 @@
 
 ## "We mind the racks, so you can relax."
 
-Welcome to the couch.io CouchDB Amazon Machine Images. For more information please visit: 
+Welcome to the couch.io CouchDB Amazon Machine Images. For more information [please visit the web documentation.](http://hosting.couch.io/ami/)
 
     http://hosting.couch.io/ami/
 
@@ -28,21 +28,26 @@ By default we'll launch a Pro AMI but you can configure the environment to use a
 
 To purchase a pro AMI, visit one of these links:
 
-CouchDB 0.9.1
-  32bit
+### CouchDB 0.9.1
+
+[32bit](https://aws-portal.amazon.com/gp/aws/user/subscription/index.html?offeringCode=914F6020)
+
 https://aws-portal.amazon.com/gp/aws/user/subscription/index.html?offeringCode=914F6020
 
-  64bit
+[64bit](https://aws-portal.amazon.com/gp/aws/user/subscription/index.html?offeringCode=BA504E0D)
+
 https://aws-portal.amazon.com/gp/aws/user/subscription/index.html?offeringCode=BA504E0D
 
-CouchDB 0.10.0
-  32bit
+### CouchDB 0.10.0
+[32bit](https://aws-portal.amazon.com/gp/aws/user/subscription/index.html?offeringCode=FF8C4E12)
+
 https://aws-portal.amazon.com/gp/aws/user/subscription/index.html?offeringCode=FF8C4E12
 
-  64bit
+[64bit](https://aws-portal.amazon.com/gp/aws/user/subscription/index.html?offeringCode=253D99CD)
+
 https://aws-portal.amazon.com/gp/aws/user/subscription/index.html?offeringCode=253D99CD
 
-To switch to a public AMI, set PAID in the couchdb-ec2-env.sh to "public". Thanks for your support!
+To switch to a public AMI, set PAID in the couchdb-ec2-env.sh to "public". Thank you for relaxing, not changing it to "public", and for your support! :)
 
 ## Backups
 
