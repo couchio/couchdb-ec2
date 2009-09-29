@@ -1,0 +1,9 @@
+#!/bin/sh
+
+# runs at boot
+# can be used to configure couchdb based on boot variables
+
+mkdir -p /mnt/couchdb/logs/
+mkdir -p /mnt/couchdb/data
+chown -R couchdb /mnt/couchdb
+
