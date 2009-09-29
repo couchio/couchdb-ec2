@@ -14,9 +14,7 @@ http://developer.amazonwebservices.com/connect/entry.jspa?externalID=351&categor
 
 To set th environment variables, visit ./bin/couchdb-ec2-env.sh
 
-If you don't want deal with command line stuff, you can launch CouchDB instances from the couch.io web page:
-
-    http://hosting.couch.io/ami/
+If you don't want deal with command line stuff, [you can launch CouchDB instances from the couch.io web page:](http://hosting.couch.io/ami/)
 
 The easiest part is launching an instance:
 
