@@ -16,7 +16,7 @@
 # limitations under the License.
 
 
-# Create a Hadoop AMI. Runs on the EC2 instance.
+# Create a CouchDB AMI. Runs on the EC2 instance.
 
 # Import variables
 bin=`dirname "$0"`
@@ -42,7 +42,11 @@ apt-get upgrade -y
 
 # install CouchDB (Can we use apt-get?)
 echo "getting dependencies with apt-get"
-apt-get install build-essential erlang libicu-dev libmozjs-dev libcurl4-openssl-dev automake autoconf libtool help2man subversion -y
+apt-get install -y build-essential erlang libicu-dev libmozjs-dev \
+libcurl4-openssl-dev automake autoconf libtool help2man subversion
+
+# install checkinstall (creates a .deb and let's us remove couchdb, for clean updates, etc.)
+apt-get install -y checkinstall
 
 # TODO EBS
 
@@ -54,11 +58,14 @@ cd couchdb_src
 ./bootstrap
 ./configure
 make -j2
-make install
+checkinstall -y -D --install=yes \
+    --pkgname=apache-couchdb --pkgversion=$COUCHDB_VERSION \
+    --maintainer=root@localhost \
+    --pakdir=/root --pkglicense=Apache 
 
 echo "setting up the CouchDB user"
 adduser --system --home /usr/local/var/lib/couchdb --no-create-home \
-        --shell /bin/bash --group --gecos "CouchDB Administrator" couchdb
+        --shell /bin/false --group --gecos "CouchDB Administrator" couchdb
 
 chown -R couchdb:couchdb /usr/local/etc/couchdb
 chown -R couchdb:couchdb /usr/local/var/lib/couchdb
@@ -93,7 +100,7 @@ cat /usr/local/etc/couchdb/local.ini | awk '{gsub(";bind_address = 127.0.0.1", "
 mv -f /usr/local/etc/couchdb/local.ini.tmp /usr/local/etc/couchdb/local.ini
 
 echo "making couchdb start at boot"
-cp /usr/local/etc/init.d/couchdb /etc/init.d/
+ln -s /usr/local/etc/init.d/couchdb /etc/init.d/couchdb
 update-rc.d couchdb defaults
 
 # echo "starting couchdb"
@@ -104,6 +111,7 @@ update-rc.d couchdb defaults
 # curl localhost:5984
 
 # install Java?
+# wat?
 # install CouchDB-Lucene
 
 # Do configuration on instance startup
