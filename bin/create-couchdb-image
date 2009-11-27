@@ -15,7 +15,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Create a Hadoop AMI.
+# Create a CouchDB AMI.
+# Based upon the Apache Hadoop AMI scripts
 # Inspired by Jonathan Siegel's EC2 script (http://blogsiegel.blogspot.com/2006/08/sandboxing-amazon-ec2.html)
 
 # Import variables
