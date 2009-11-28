@@ -48,7 +48,7 @@ EC2_GROUP=default
 USER=ubuntu
 
 # couchdb version (just used to name the AMI manifest)
-COUCH_VER="0.10"
+COUCHDB_VERSION="0.10"
 
 require_var "$EC2_KEY_NAME" "EC2_KEY_NAME"
 require_var "$EC2_PRIVATE_KEY" "EC2_PRIVATE_KEY"

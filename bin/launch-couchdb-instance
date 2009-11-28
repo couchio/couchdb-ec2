@@ -23,7 +23,7 @@ bin=`cd "$bin"; pwd`
 . "$bin"/couchdb-ec2-env.sh
 
 # Get the name for the AMI Image
-AMI_IMAGE=`ec2-describe-images -a | grep $S3_BUCKET | grep $COUCH_VER | grep $ARCH | grep available | awk '{print $2}'`
+AMI_IMAGE=`ec2-describe-images -a | grep $S3_BUCKET | grep $COUCHDB_VERSION | grep $ARCH | grep available | awk '{print $2}'`
 
 
 # Start a master

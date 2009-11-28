@@ -24,11 +24,11 @@ bin=`dirname "$0"`
 bin=`cd "$bin"; pwd`
 . "$bin"/couchdb-ec2-env.sh
 
-AMI_IMAGE=`ec2-describe-images -a | grep $S3_BUCKET | grep $COUCH_VER | grep $ARCH | grep available | awk '{print $2}'`
+AMI_IMAGE=`ec2-describe-images -a | grep $S3_BUCKET | grep $COUCHDB_VERSION | grep $ARCH | grep available | awk '{print $2}'`
 
 [ ! -z $AMI_IMAGE ] && echo "AMI already registered, use: ec2-deregister $AMI_IMAGE" && exit -1
 
-echo "will bundle to: $S3_BUCKET/couchdb-$COUCH_VER-$ARCH.manifest.xml"
+echo "will bundle to: $S3_BUCKET/couchdb-$COUCHDB_VERSION-$ARCH.manifest.xml"
 
 echo "Starting an AMI with ID $BASE_AMI_IMAGE."
 OUTPUT=`ec2-run-instances $BASE_AMI_IMAGE -k $EC2_KEY_NAME -t $INSTANCE_TYPE`
@@ -65,9 +65,7 @@ echo "AWS_ACCOUNT_ID=$AWS_ACCOUNT_ID" > "$TMP_ENV_FILE"
 echo "AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID" >> "$TMP_ENV_FILE"
 echo "AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY" >> "$TMP_ENV_FILE"
 echo "AWS_ACCOUNT_ID=$AWS_ACCOUNT_ID" >> "$TMP_ENV_FILE"
-# echo "COUCHDB_VERSION=$COUCHDB_VERSION" >> "$TMP_ENV_FILE"
-# echo "COUCHDB_SVN=$COUCHDB_SVN" >> "$TMP_ENV_FILE"
-# echo "ERLANG_URL=$ERLANG_URL" >> "$TMP_ENV_FILE"
+echo "COUCHDB_VERSION=$COUCHDB_VERSION" >> "$TMP_ENV_FILE"
 echo "ARCH=$ARCH" >> "$TMP_ENV_FILE"
 echo "S3_BUCKET=$S3_BUCKET" >> "$TMP_ENV_FILE"
 echo "BUNDLE=$BUNDLE" >> "$TMP_ENV_FILE"
@@ -106,8 +104,8 @@ ssh $SSH_OPTS "$USER@$HOSTNAME" 'sudo /mnt/makeami/create-couchdb-image-remote'
 
 # Register image
 echo "registering ami"
-ec2-register $S3_BUCKET/couchdb-$COUCH_VER-$ARCH.manifest.xml
-echo "registered: $S3_BUCKET/couchdb-$COUCH_VER-$ARCH.manifest.xml"
+ec2-register $S3_BUCKET/couchdb-$COUCHDB_VERSION-$ARCH.manifest.xml
+echo "registered: $S3_BUCKET/couchdb-$COUCHDB_VERSION-$ARCH.manifest.xml"
 
 echo "Terminating instance"
 ec2-terminate-instances $BOOTING_INSTANCE
