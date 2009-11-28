@@ -41,7 +41,7 @@ while true; do
   sleep 1
 done
 
-# TODO move to launch
+# move to launch
 echo "Access the Couch here:" 
 echo "http://$HOSTNAME:5984/"
 echo "to login run:"

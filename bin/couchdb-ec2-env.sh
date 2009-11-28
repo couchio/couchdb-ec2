@@ -33,16 +33,16 @@ require_var()
 COUCHDB_SVN=http://svn.apache.org/repos/asf/couchdb/branches/0.10.x
 COUCHDB_VERSION=0.10.x
 
-PAID="pro"
-# PAID="public"
-
 # The EC2 instance type: m1.small, m1.large, m1.xlarge
 INSTANCE_TYPE="m1.small"
 # INSTANCE_TYPE="m1.large"
-#INSTANCE_TYPE="m1.xlarge"
+# INSTANCE_TYPE="m1.xlarge"
 
 # set this to your own bucket if you are custom building one
-S3_BUCKET=couchio-couchdb-$PAID
+S3_BUCKET=jchris-couchdb
+
+# group to run instances under
+EC2_GROUP=default
 
 require_var "$EC2_KEY_NAME" "EC2_KEY_NAME"
 require_var "$EC2_PRIVATE_KEY" "EC2_PRIVATE_KEY"
@@ -63,15 +63,15 @@ echo "using ec2 ssh key: $PRIVATE_KEY_PATH"
 # SSH options used when connecting to EC2 instances.
 SSH_OPTS=`echo -i "$PRIVATE_KEY_PATH" -o StrictHostKeyChecking=no -o ServerAliveInterval=30`
 
-EC2_GROUP=default
-
-# SUPPORTED_ARCHITECTURES = ['i386', 'x86_64']
+# Ubuntu 9.10 http://uec-images.ubuntu.com/releases/karmic/release/
 if [ "$INSTANCE_TYPE" == "m1.small" ]; then
-  ARCH='i386'
-  BASE_AMI_IMAGE="ami-ed46a784"  # http://alestic.com/ 32 bit Ubuntu 9.04
+  ARCH='i386' # 32 bit
+  BASE_AMI_IMAGE='ami-1515f67c' # us 32 bit
+  # BASE_AMI_IMAGE='ami-a62a01d2' europe
 else
-  ARCH='x86_64'
-  BASE_AMI_IMAGE="ami-5b46a732"  # http://alestic.com/ 64 bit Ubuntu 9.04
+  ARCH='x86_64' # 64 bit
+  BASE_AMI_IMAGE="ami-ab15f6c2"  # us
+  # BASE_AMI_IMAGE='ami-9a2a01ee' europe
 fi
 
 REQUIRED_BINARIES="\

@@ -1,3 +1,15 @@
+ebs
+  
+  backup/restore
+
+ip
+
+subdomain rewriter
+
+
+
+
+
 script to recreate couch / server from s3
 add apache proxy config and home directory
 add rewrite stuff

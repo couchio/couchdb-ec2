@@ -12,7 +12,7 @@ The hardest part of this is installing the EC2 command-line tools, and setting u
 
 http://developer.amazonwebservices.com/connect/entry.jspa?externalID=351&categoryID=88
 
-To set th environment variables, visit ./bin/couchdb-ec2-env.sh
+To set the environment variables, visit ./bin/couchdb-ec2-env.sh
 
 If you don't want deal with command line stuff, [you can launch CouchDB instances from the couch.io web page:](http://hosting.couch.io/ami/)
 
@@ -37,6 +37,7 @@ https://aws-portal.amazon.com/gp/aws/user/subscription/index.html?offeringCode=9
 https://aws-portal.amazon.com/gp/aws/user/subscription/index.html?offeringCode=BA504E0D
 
 ### CouchDB 0.10.0
+
 [32bit](https://aws-portal.amazon.com/gp/aws/user/subscription/index.html?offeringCode=FF8C4E12)
 
 https://aws-portal.amazon.com/gp/aws/user/subscription/index.html?offeringCode=FF8C4E12
@@ -66,7 +67,6 @@ This will open up port 5984 for all instances you boot into the default group. S
 Don't forget to close port 5984 when you are done: 
 
     ec2-revoke -p 5984 default
-
 
 ## Creating a Custom Image
 
