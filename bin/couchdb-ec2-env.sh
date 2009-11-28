@@ -29,9 +29,9 @@ require_var()
 
 # COUCHDB_SVN=http://svn.apache.org/repos/asf/couchdb/tags/0.9.1
 # COUCHDB_VERSION=0.9.1
-
-COUCHDB_SVN=http://svn.apache.org/repos/asf/couchdb/branches/0.10.x
-COUCHDB_VERSION=0.10.x
+# 
+# COUCHDB_SVN=http://svn.apache.org/repos/asf/couchdb/branches/0.10.x
+# COUCHDB_VERSION=0.10.x
 
 # The EC2 instance type: m1.small, m1.large, m1.xlarge
 INSTANCE_TYPE="m1.small"
@@ -43,6 +43,9 @@ S3_BUCKET=jchris-couchdb
 
 # group to run instances under
 EC2_GROUP=default
+
+# user to login to instances as
+USER=ubuntu
 
 require_var "$EC2_KEY_NAME" "EC2_KEY_NAME"
 require_var "$EC2_PRIVATE_KEY" "EC2_PRIVATE_KEY"

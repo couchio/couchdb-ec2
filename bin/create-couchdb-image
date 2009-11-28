@@ -51,7 +51,7 @@ done
 
 echo "The server is available at $HOSTNAME. Will attempt to ssh in until it's fully booted."
 while true; do
-  REPLY=`ssh $SSH_OPTS "root@$HOSTNAME" 'echo "hello"'`
+  REPLY=`ssh $SSH_OPTS "$USER@$HOSTNAME" 'echo "hello"'`
   if [ ! -z $REPLY ]; then
    break;
   fi
@@ -65,8 +65,8 @@ echo "AWS_ACCOUNT_ID=$AWS_ACCOUNT_ID" > "$TMP_ENV_FILE"
 echo "AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID" >> "$TMP_ENV_FILE"
 echo "AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY" >> "$TMP_ENV_FILE"
 echo "AWS_ACCOUNT_ID=$AWS_ACCOUNT_ID" >> "$TMP_ENV_FILE"
-echo "COUCHDB_VERSION=$COUCHDB_VERSION" >> "$TMP_ENV_FILE"
-echo "COUCHDB_SVN=$COUCHDB_SVN" >> "$TMP_ENV_FILE"
+# echo "COUCHDB_VERSION=$COUCHDB_VERSION" >> "$TMP_ENV_FILE"
+# echo "COUCHDB_SVN=$COUCHDB_SVN" >> "$TMP_ENV_FILE"
 # echo "ERLANG_URL=$ERLANG_URL" >> "$TMP_ENV_FILE"
 echo "ARCH=$ARCH" >> "$TMP_ENV_FILE"
 echo "S3_BUCKET=$S3_BUCKET" >> "$TMP_ENV_FILE"
@@ -74,36 +74,41 @@ echo "BUNDLE=$BUNDLE" >> "$TMP_ENV_FILE"
 
 echo "Copying scripts."
 
+# make it so $user can do copies
+ssh $SSH_OPTS "$USER@$HOSTNAME" "sudo mkdir -p /mnt/makeami/ && chown -R $USER /mnt/makeami/"
+
+
 # Copy setup scripts
-scp $SSH_OPTS "$TMP_ENV_FILE" "root@$HOSTNAME:/mnt"
-scp $SSH_OPTS "$bin"/remote/cleanup-keys "root@$HOSTNAME:/mnt"
-scp $SSH_OPTS "$bin"/remote/create-couchdb-image-remote "root@$HOSTNAME:/mnt"
-scp $SSH_OPTS "$bin"/remote/couchdb-init "root@$HOSTNAME:"
-scp $SSH_OPTS "$bin"/remote/motd "root@$HOSTNAME:/mnt"
+scp $SSH_OPTS "$TMP_ENV_FILE" "$USER@$HOSTNAME:/mnt/makeami/"
+scp $SSH_OPTS "$bin"/remote/cleanup-keys "$USER@$HOSTNAME:/mnt/makeami/"
+scp $SSH_OPTS "$bin"/remote/create-couchdb-image-remote "$USER@$HOSTNAME:/mnt/makeami/"
+scp $SSH_OPTS "$bin"/remote/couchdb-init "$USER@$HOSTNAME:/mnt/makeami/"
+scp $SSH_OPTS "$bin"/remote/couchdb_vhost.conf "$USER@$HOSTNAME:/mnt/makeami/"
+scp $SSH_OPTS "$bin"/remote/couchdb-config.ini "$USER@$HOSTNAME:/mnt/makeami/"
+scp $SSH_OPTS "$bin"/remote/motd "$USER@$HOSTNAME:/mnt/makeami/"
 
 # Copy private key and certificate (for bundling image)
-scp $SSH_OPTS $EC2_KEYDIR/pk*.pem "root@$HOSTNAME:/mnt"
-scp $SSH_OPTS $EC2_KEYDIR/cert*.pem "root@$HOSTNAME:/mnt"
+scp $SSH_OPTS $EC2_KEYDIR/pk*.pem "$USER@$HOSTNAME:/mnt/makeami/"
+scp $SSH_OPTS $EC2_KEYDIR/cert*.pem "$USER@$HOSTNAME:/mnt/makeami/"
 
 echo "Deleting env script from local machine."
 rm "$TMP_ENV_FILE"
 
 # Connect to it, run the script
-ssh $SSH_OPTS "root@$HOSTNAME" '/mnt/create-couchdb-image-remote'
+ssh $SSH_OPTS "$USER@$HOSTNAME" '/mnt/makeami/create-couchdb-image-remote'
 
 # read -p "Login? [yes or No]: " answer
 # 
 # if [ "$answer" == "yes" ]; then
-  # ssh $SSH_OPTS "root@$HOSTNAME"
+  # ssh $SSH_OPTS "$USER@$HOSTNAME"
 # fi
 
-ssh $SSH_OPTS "root@$HOSTNAME" '/mnt/cleanup-keys'
+# ssh $SSH_OPTS "$USER@$HOSTNAME" '/mnt/makeami/cleanup-keys'
 
 # Register image
 echo "registering ami"
-ec2-register $S3_BUCKET/couchdb-$COUCHDB_VERSION-$ARCH.manifest.xml
-echo "registered: $S3_BUCKET/couchdb-$COUCHDB_VERSION-$ARCH.manifest.xml"
-
+ec2-register $S3_BUCKET/couchdb-$ARCH.manifest.xml
+echo "registered: $S3_BUCKET/couchdb-$ARCH.manifest.xml"
 
 echo "Terminating instance"
 ec2-terminate-instances $BOOTING_INSTANCE
