@@ -47,6 +47,9 @@ EC2_GROUP=default
 # user to login to instances as
 USER=ubuntu
 
+# couchdb version (just used to name the AMI manifest)
+COUCH_VER="0.10"
+
 require_var "$EC2_KEY_NAME" "EC2_KEY_NAME"
 require_var "$EC2_PRIVATE_KEY" "EC2_PRIVATE_KEY"
 require_var "$AWS_ACCOUNT_ID" "AWS_ACCOUNT_ID"

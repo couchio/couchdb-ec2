@@ -74,9 +74,9 @@ echo "bundling image"
 cd ~
 # Don't need to delete .bash_history since it isn't written until exit.
 df -h
-ec2-bundle-vol -d /mnt -k /mnt/makeami/pk*.pem -c /mnt/makeami/cert*.pem -u $AWS_ACCOUNT_ID -s 3072 -p couchdb-$ARCH -r $ARCH
+ec2-bundle-vol -d /mnt -k /mnt/makeami/pk*.pem -c /mnt/makeami/cert*.pem -u $AWS_ACCOUNT_ID -s 3072 -p couchdb-$COUCH_VER-$ARCH -r $ARCH
 
-ec2-upload-bundle -b $S3_BUCKET -m /mnt/couchdb-$ARCH.manifest.xml -a $AWS_ACCESS_KEY_ID -s $AWS_SECRET_ACCESS_KEY
+ec2-upload-bundle -b $S3_BUCKET -m /mnt/couchdb-$COUCH_VER-$ARCH.manifest.xml -a $AWS_ACCESS_KEY_ID -s $AWS_SECRET_ACCESS_KEY
 
 # End
 echo "EC2 setup Done"
