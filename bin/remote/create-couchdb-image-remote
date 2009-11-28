@@ -61,7 +61,8 @@ rm /etc/apache2/sites-enabled/*
 mv /mnt/makeami/couchdb_vhost.conf /etc/apache2/sites-enabled/
 
 # Do configuration on instance startup
-echo "/mnt/makeami/couchdb-init" >> /etc/init.d/rc.local 
+mv /mnt/makeami/couchdb-init /usr/local/etc/couchdb-init
+echo "/usr/local/etc/couchdb-init" >> /etc/init.d/rc.local 
 
 # Delete SSH authorized_keys since it includes the key it was launched with. (Note that it is re-populated when an instance starts.)
 rm -f /home/$USER/.ssh/authorized_keys
