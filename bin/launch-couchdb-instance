@@ -44,7 +44,11 @@ done
 # move to launch
 echo "Access the Couch here:" 
 echo "http://$HOSTNAME:5984/"
+echo "or"
+echo "http://$HOSTNAME/"
 echo "to login run:"
+echo ""
 echo "ssh $SSH_OPTS \"$USER@$HOSTNAME\""
+echo ""
 echo "to terminate run:"
 echo "ec2-terminate-instances $INSTANCE"

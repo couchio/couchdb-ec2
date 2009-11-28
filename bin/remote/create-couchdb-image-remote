@@ -55,8 +55,14 @@ COUCH_LOCAL_INI=/etc/couchdb/local.ini
 
 echo "configuring CouchDB"
 cat /mnt/makeami/couchdb-config.ini >> $COUCH_LOCAL_INI
-# Configure Apache
 
+# Configure Apache
+echo "configure Apache"
+
+mv /etc/apache2/mods-available/proxy* /etc/apache2/mods-enabled/
+mv /etc/apache2/mods-available/rewrite.load /etc/apache2/mods-enabled/
+
+# install the couchdb site
 rm /etc/apache2/sites-enabled/*
 mv /mnt/makeami/couchdb_vhost.conf /etc/apache2/sites-enabled/
 
