@@ -67,6 +67,7 @@ echo "AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY" >> "$TMP_ENV_FILE"
 echo "AWS_ACCOUNT_ID=$AWS_ACCOUNT_ID" >> "$TMP_ENV_FILE"
 echo "COUCHDB_VERSION=$COUCHDB_VERSION" >> "$TMP_ENV_FILE"
 echo "ARCH=$ARCH" >> "$TMP_ENV_FILE"
+echo "USER=$USER" >> "$TMP_ENV_FILE"
 echo "S3_BUCKET=$S3_BUCKET" >> "$TMP_ENV_FILE"
 echo "BUNDLE=$BUNDLE" >> "$TMP_ENV_FILE"
 
@@ -93,14 +94,6 @@ rm "$TMP_ENV_FILE"
 
 # Connect to it, run the script
 ssh $SSH_OPTS "$USER@$HOSTNAME" 'sudo /mnt/makeami/create-couchdb-image-remote'
-
-# read -p "Login? [yes or No]: " answer
-# 
-# if [ "$answer" == "yes" ]; then
-  # ssh $SSH_OPTS "$USER@$HOSTNAME"
-# fi
-
-# ssh $SSH_OPTS "$USER@$HOSTNAME" '/mnt/makeami/cleanup-keys'
 
 # Register image
 echo "registering ami"
