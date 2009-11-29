@@ -25,8 +25,10 @@ bin=`cd "$bin"; pwd`
 # Get the name for the AMI Image
 AMI_IMAGE=`ec2-describe-images -a | grep $S3_BUCKET | grep $COUCHDB_VERSION | grep $ARCH | grep available | awk '{print $2}'`
 
+# if EBS_ID then use it, else make a new EBS and attach that.
 
-# Start a master
+
+# Start it
 echo "Starting instance with AMI $AMI_IMAGE"
 INSTANCE=`ec2-run-instances $AMI_IMAGE -n 1 -g $EC2_GROUP -k $EC2_KEY_NAME -t $INSTANCE_TYPE | grep INSTANCE | awk '{print $2}'`
 echo "Waiting for instance $INSTANCE to start"
@@ -42,14 +44,17 @@ while true; do
 done
 
 # move to launch
-echo "Access the Couch here:" 
+echo "Access the CouchDB here:" 
 echo "http://$HOSTNAME:5984/"
 echo "or"
 echo "http://$HOSTNAME/"
 echo ""
-echo "If your security-group '$GROUP' is open to the world, be sure to set a CouchDB Admin via http://$HOSTNAME/_utils/config.html before someone else does. :)"
+echo "If your security-group '$GROUP' is open to the world, be sure to set a CouchDB Admin before someone else does. :)"
 echo ""
-echo "to login run:"
+echo "to setup an CouchDB admin run:"
+echo "curl -v -X PUT http://$HOSTNAME:5984/_config/admins/username -d '\"password\"'"
+echo ""
+echo "to login to the ec2 instance run:"
 echo ""
 echo "ssh $SSH_OPTS \"$USER@$HOSTNAME\""
 echo ""
