@@ -23,10 +23,23 @@ bin=`cd "$bin"; pwd`
 . "$bin"/couchdb-ec2-env.sh
 
 # Get the name for the AMI Image
-AMI_IMAGE=`ec2-describe-images -a | grep $S3_BUCKET | grep $COUCHDB_VERSION | grep $ARCH | grep available | awk '{print $2}'`
+AMI_INFO=`ec2-describe-images -a | grep $S3_BUCKET | grep $COUCHDB_VERSION | grep $ARCH | grep available`
+AMI_IMAGE=`echo $AMI_INFO | awk '{print $2}'`
 
-# if EBS_ID then use it, else make a new EBS and attach that.
-
+# TODO ebs support
+# # EBS can be "new", an id, or blank. 
+# EBS=new
+# 
+# # If it's blank don't use EBS.
+# if [ ! -z $EBS ]; then
+#   if [ "$EBS" == "new" ]; then
+#     # create new ebs
+#     # TODO support creating ebs from a snapshot
+#     
+#     # set EBS= new ebs id
+#   fi
+#   # attach ebs
+# fi
 
 # Start it
 echo "Starting instance with AMI $AMI_IMAGE"
@@ -34,7 +47,7 @@ INSTANCE=`ec2-run-instances $AMI_IMAGE -n 1 -g $EC2_GROUP -k $EC2_KEY_NAME -t $I
 echo "Waiting for instance $INSTANCE to start"
 while true; do
   printf "."
-  # get private dns
+  # get public dns
   HOSTNAME=`ec2-describe-instances $INSTANCE | grep running | awk '{print $4}'`
   if [ ! -z $HOSTNAME ]; then
     echo "Started as $HOSTNAME"
@@ -43,7 +56,6 @@ while true; do
   sleep 1
 done
 
-# move to launch
 echo "Access the CouchDB here:" 
 echo "http://$HOSTNAME:5984/"
 echo "or"
@@ -60,3 +72,5 @@ echo "ssh $SSH_OPTS \"$USER@$HOSTNAME\""
 echo ""
 echo "to terminate run:"
 echo "ec2-terminate-instances $INSTANCE"
+# echo ""
+# echo "using EBS id: $EBS"

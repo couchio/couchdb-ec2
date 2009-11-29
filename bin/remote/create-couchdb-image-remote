@@ -39,9 +39,11 @@ apt-get update -y
 apt-get clean -y
 apt-get upgrade -y
 
-# install CouchDB (Can we use apt-get?)
+# install CouchDB 
 echo "installing CouchDB and Apache2 with apt-get"
 apt-get install -y couchdb apache2 ec2-api-tools ec2-ami-tools
+# apt-get install -y rubygems ohai chef
+
 
 echo "using /mnt/couchdb for data and logs"
 mkdir -p /mnt/couchdb/data
